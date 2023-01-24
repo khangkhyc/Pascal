@@ -1,64 +1,48 @@
-program SortArray;
+program merge_sort;
 
 const
-  MAX_SIZE = 100;
-
-type
-  IntArray = array[1..MAX_SIZE] of Integer;
+    n = 10;
 
 var
-  A: IntArray;
-  N: Integer;
+    mas: array [1..n] of integer;
+    i: integer;
 
-procedure Merge(var A: IntArray; p, q, r: Integer);
+procedure MergeSort(a, c: integer);
 var
-  L, R: IntArray;
-  i, j, k: Integer;
+    x, j, i, n1, n2: integer;
+    rez: array[1..1000] of integer;
 begin
-  for i := p to q do
-    L[i - p + 1] := A[i];
-  for i := q + 1 to r do
-    R[i - q] := A[i];
-  i := 1;
-  j := 1;
-  for k := p to r do
-    if (i <= (q - p + 1)) and ((j > (r - q)) or (L[i] <= R[j])) then
+    if c <= a then 
+        exit 
+    else 
     begin
-      A[k] := L[i];
-      i := i + 1;
-    end
-    else
-    begin
-      A[k] := R[j];
-      j := j + 1;
-    end;
-end;
-
-procedure IterativeMergeSort(var A: IntArray; N: Integer);
-var
-  current_size, left_start: Integer;
-begin
-  for current_size := 1 to N - 1 do
-  begin
-    for left_start := 1 to N-1 do
-    begin
-      var mid:= left_start + current_size - 1;
-      var right_end := min(left_start + 2*current_size - 1, N);
-      Merge(A, left_start, mid, right_end);
-    end;
-  end;
+        x := (a + c) div 2;
+        MergeSort(a, x);
+        MergeSort(x + 1, c);
+        n1 := a;
+        n2 := x + 1;
+        for i := a to c do 
+        begin
+            if (n1 < x + 1) and ((n2 > c) or (mas[n1] < mas[n2])) then
+            begin
+                rez[i] := mas[n1];
+                inc(n1);
+            end 
+            else 
+            begin
+                rez[i] := mas[n2];
+                inc(n2);
+            end;
+        end;
+        for j := a to c do
+            mas[j] := rez[j];
+    end; 
 end;
 
 begin
-  Write('Enter the number of elements in the array: ');
-  Readln(N);
-  for i := 1 to N do
-  begin
-    Write('Enter element ', i, ': ');
-    Readln(A[i]);
-  end;
-  IterativeMergeSort(A, N);
-  Writeln('Sorted array:');
-  for i := 1 to N do
-    Writeln(A[i]);
+    for i := 1 to n do
+        mas[i] := random(20);
+    writeln(mas);
+    MergeSort(1, n);
+    writeln(mas);
 end.
