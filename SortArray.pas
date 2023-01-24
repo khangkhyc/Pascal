@@ -1,48 +1,41 @@
-program merge_sort;
-
-const
-    n = 10;
-
-var
-    mas: array [1..n] of integer;
-    i: integer;
-
-procedure MergeSort(a, c: integer);
-var
-    x, j, i, n1, n2: integer;
-    rez: array[1..1000] of integer;
+uses crt;
+var a:array[0..1000000] of longint; i,n:longint;
+procedure swap(var a,b:longint);
+var t:longint;
 begin
-    if c <= a then 
-        exit 
-    else 
-    begin
-        x := (a + c) div 2;
-        MergeSort(a, x);
-        MergeSort(x + 1, c);
-        n1 := a;
-        n2 := x + 1;
-        for i := a to c do 
-        begin
-            if (n1 < x + 1) and ((n2 > c) or (mas[n1] < mas[n2])) then
-            begin
-                rez[i] := mas[n1];
-                inc(n1);
-            end 
-            else 
-            begin
-                rez[i] := mas[n2];
-                inc(n2);
-            end;
-        end;
-        for j := a to c do
-            mas[j] := rez[j];
-    end; 
+    t := a;
+    a := b;
+    b := t;
 end;
-
+procedure vun(n,i:longint);
+var x,l,r:longint;
 begin
-    for i := 1 to n do
-        mas[i] := random(20);
-    writeln(mas);
-    MergeSort(1, n);
-    writeln(mas);
+    x := i;
+    l := 2 * i + 1;
+    r := 2 * i + 2;
+    if (l < n) and (a[l] > a[x]) then x := l;
+    if (r < n) and (a[r] > a[x]) then x := r;
+    if (x <> i) then
+        begin
+            swap(a[i],a[x]);
+            vun(n,x);
+        end;
+end;
+procedure heapSort();
+var i:longint;
+begin
+    for i := (n div 2 - 1) downto 0 do vun(n,i);
+    for i := n - 1 downto 0 do
+        begin
+            swap(a[0], a[i]);
+            vun(i, 0);
+        end;
+end;
+begin
+    clrscr;
+    readln(n);
+    for i := 0 to n - 1 do read(a[i]);
+    heapSort();
+    for i := 0 to n - 1 do write(a[i],' ');
+    readln; readln;
 end.
