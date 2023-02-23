@@ -1,5 +1,5 @@
 uses crt;
-var a,b:longint;
+var a,b:byte;
 function pow(x,n:byte):qword;
 var i:qword;
 begin
