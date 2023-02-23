@@ -1,6 +1,6 @@
 uses crt;
-var a,b:longint;
-function pow(x,n:longint):qword;
+var a,b:byte;
+function pow(x,n:byte):qword;
 var i:qword;
 begin
     pow := 1;
